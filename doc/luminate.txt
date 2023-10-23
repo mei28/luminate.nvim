@@ -1,0 +1,57 @@
+* luminate.txt * For Neovim 0.5+          Last Change: 2023 Oct 23
+
+luminate.nvim ~
+
+Highlight yanked text in Neovim.
+
+CONTENTS                                   * luminate-contents *
+
+1. Introduction                |luminate-intro|
+2. Options                     |luminate-options|
+3. Customizing                 |luminate-customizing|
+
+INTRODUCTION                               * luminate-intro *
+
+luminate.nvim provides a simple mechanism to highlight yanked text. With
+minimal setup, you can visualize the yanked region instantly.
+
+OPTIONS                                    * luminate-options *
+
+`timeout`~
+    Duration of the highlight in milliseconds. Default is 500.
+    >
+        require'luminate'.setup({
+            timeout = 1000
+        })
+    <
+
+`ctermbg`~
+    Background color for terminals. Default is "lightyellow".
+    >
+        require'luminate'.setup({
+            ctermbg = "blue"
+        })
+    <
+
+`guibg`~
+    Background color for GUIs like Neovim-Qt or gVim. Default is "#FFFFE0".
+    >
+        require'luminate'.setup({
+            guibg = "#FFDDDD"
+        })
+    <
+
+CUSTOMIZING                                * luminate-customizing *
+
+You can customize the highlight group by creating your own:
+
+    highlight MyYankGroup ctermbg=red guibg=#FF0000
+
+Then, in the `setup` function:
+
+    require'luminate'.setup({
+      higroup = "MyYankGroup"
+    })
+
+If you don't provide a custom `higroup`, the default "LuminateYank" will be used.
+
