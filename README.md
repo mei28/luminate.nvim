@@ -11,7 +11,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 ```lua
 return {
     'mei28/luminate.nvim',
-    event = 'VeryLazy',
+    event = { 'TextYankPost' },
     config = function()
         require'luminate'.setup({
             -- if you want to customize, see Usage!
