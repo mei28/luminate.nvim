@@ -1,64 +1,62 @@
-* luminate.txt * For Neovim 0.5+          Last Change: 2023 Oct 23
+* luminate.txt*       For Neovim version 0.6.0.  Last change: 2023 Nov 02
 
-luminate.nvim ~
+                                                         * luminate *
+==============================================================================
+1. Overview                                               |luminate-overview|
 
-Highlight yanked text in Neovim.
+The `luminate` module provides functionality to highlight text regions during
+yank and paste operations in Neovim.
 
+==============================================================================
+2. Configuration                                          |luminate-config|
 
-CONTENTS                                   *luminate-contents*
+Here's the default configuration for the `luminate` module:
 
-1. Introduction                |luminate-intro|
-2. Options                     |luminate-options|
-3. Customizing                 |luminate-customizing|
+  local M = {}
 
+  M.config = {
+    higroup = "LuminateYank",         " Highlight group name
+    timeout = 500,                   " Duration of the highlight in milliseconds
+    ctermbg = 8,                     " Terminal background color
+    guibg = "#ebcb8b",               " GUI background color
+    highlight_on_yank = true,        " Whether to highlight on yank
+    highlight_on_paste = true        " Whether to highlight on paste
+  }
 
-INTRODUCTION                               *luminate-intro*
+The configuration can be changed by passing an options table to the `setup`
+function.
 
-luminate.nvim provides a simple mechanism to highlight yanked text. With
-minimal setup, you can visualize the yanked region instantly.
+==============================================================================
+3. Functions                                               |luminate-functions|
 
+3.1. setup({opts})                                         |luminate-setup|
 
-OPTIONS                                    *luminate-options*
+  M.setup = function(opts)
+    ...
+  end
 
-`timeout`~
+  This function initializes the `luminate` module and sets up auto commands
+  for highlighting on yank and paste. You can customize the behavior by
+  passing in an options table.
 
-    Duration of the highlight in milliseconds. Default is 500.
-    >
-        require'luminate'.setup({
-            timeout = 1000
-        })
-    <
+3.2. on_yank()                                             |luminate-on_yank|
 
-`ctermbg`~
+  M.on_yank = function()
+    ...
+  end
 
-    Background color for terminals. Default is "lightyellow".
-    >
-        require'luminate'.setup({
-            ctermbg = "blue"
-        })
-    <
+  This function is an internal function triggered after yank operations to 
+  provide the highlighting feature.
 
-`guibg`~
+3.3. on_paste()                                            |luminate-on_paste|
 
-    Background color for GUIs like Neovim-Qt or gVim. Default is "#FFFFE0".
-    >
-        require'luminate'.setup({
-            guibg = "#FFDDDD"
-        })
-    <
+  M.on_paste = function()
+    ...
+  end
 
+  This function is an internal function triggered after paste operations to 
+  provide the highlighting feature.
 
-CUSTOMIZING                                *luminate-customizing*
-
-You can customize the highlight group by creating your own:
-
-    highlight MyYankGroup ctermbg=red guibg=#FF0000
-
-Then, in the `setup` function:
-
-    require'luminate'.setup({
-      higroup = "MyYankGroup"
-    })
-
-If you don't provide a custom `higroup`, the default "LuminateYank" will be used.
+==============================================================================
+vim:tw=78:ts=8:noet:ft=help:norl:
 
