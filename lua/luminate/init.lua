@@ -6,7 +6,8 @@ M.config = {
   ctermbg = 8,
   guibg = "#ebcb8b",
   highlight_on_yank = true,
-  highlight_on_paste = true
+  highlight_on_paste = true,
+  HIGHLIGHT_THRESHOLD = 0.9
 }
 
 
@@ -34,8 +35,14 @@ M.on_paste = function()
   local end_line = vim.api.nvim_buf_get_mark(0, "]")[1]
   local start_col = vim.api.nvim_buf_get_mark(0, "[")[2]
   local end_col = vim.api.nvim_buf_get_mark(0, "]")[2]
-  local ns_id = vim.api.nvim_create_namespace('LuminatePasteHighlight')
+  local total_lines = vim.api.nvim_buf_line_count(0)
 
+  -- 変更された行数が全体の5%を超えた場合にハイライトをスキップ
+  if (end_line - start_line) / total_lines > M.config.HIGHLIGHT_THRESHOLD then
+    return
+  end
+
+  local ns_id = vim.api.nvim_create_namespace('LuminatePasteHighlight')
   vim.highlight.range(0, ns_id, M.config.higroup, { start_line - 1, start_col }, { end_line - 1, end_col })
 
   if M.config.timeout > 0 then
