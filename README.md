@@ -141,3 +141,10 @@ require'luminate'.setup({
 
 ## 📜 License
 MIT
+
+## 💡 Inspiration
+
+This plugin was inspired by [highlight-undo.nvim](https://github.com/tzachar/highlight-undo.nvim).
+
+[]()
+
