@@ -2,7 +2,8 @@
 
 🌟 Highlight yanked, pasted, and undone/redone text in Neovim with a splash of color.
 
-<!-- ![demo image here](path_to_demo_image.gif)  <!-- If you have a demo GIF -->
+<img src="https://github.com/mei28/luminate.nvim/assets/51149822/59f58401-c137-431f-ae6e-9fc56fb1ed58" alt="luminate" width="800"/>
+
 ## 📦 Installation
 
 Using [lazy.nvim](https://github.com/folke/lazy.nvim):
