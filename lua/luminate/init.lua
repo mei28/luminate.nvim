@@ -49,12 +49,11 @@ local M = {
   },
 }
 
--- 汎用的なハイライト設定
 local function set_highlight(name, params)
   api.nvim_set_hl(0, name, params)
 end
 
--- オートコマンドの設定
+-- setup autocmds
 local function set_autocmds()
   api.nvim_create_augroup('LuminateHighlight', { clear = true })
 
@@ -80,7 +79,6 @@ local function set_autocmds()
   end
 end
 
--- バイト変更の処理
 function M.on_bytes(event_type, bufnr, changedtick,
                     start_row, start_column,
                     byte_offset, old_end_row,
@@ -99,7 +97,6 @@ function M.on_bytes(event_type, bufnr, changedtick,
     end_col = #api.nvim_buf_get_lines(bufnr, -2, -1, false)[1]
   end
 
-  -- ハイライト適用
   vim.schedule(function()
     if (end_row - start_row) / num_lines <= config.HIGHLIGHT_THRESHOLD then
       vim.highlight.range(
@@ -109,13 +106,12 @@ function M.on_bytes(event_type, bufnr, changedtick,
         { start_row, start_column },
         { end_row, end_col }
       )
-      -- ハイライトのクリア
+
       M.defer_clear_highlights(bufnr, M.namespaces[event_type])
     end
   end)
 end
 
--- バッファアタッチ
 function M.attach_bytes_highlight(event_type)
   M.should_detach = false
   api.nvim_buf_attach(0, false, {
@@ -133,7 +129,7 @@ function M.attach_bytes_highlight(event_type)
   })
 end
 
--- ヤンク後のハイライト
+-- highlight after yank
 function M.on_yank()
   vim.highlight.on_yank({
     higroup = M.config.yank.hlgroup,
@@ -142,14 +138,14 @@ function M.on_yank()
   })
 end
 
--- ハイライトのクリア（一定時間後）
+-- clear highlights
 function M.defer_clear_highlights(bufnr, namespace)
   vim.defer_fn(function()
     api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
   end, M.config.duration)
 end
 
--- 元のキーマップを実行
+-- original keymap
 function M.call_original_kemap(map)
   if type(map) == 'string' then
     vim.cmd(map)
@@ -158,18 +154,18 @@ function M.call_original_kemap(map)
   end
 end
 
--- undo 操作時に fold を開く
+-- open fold when undo
 local function open_folds_on_undo()
   if vim.tbl_contains(vim.opt.foldopen:get(), "undo") then
     vim.cmd.normal({ "zv", bang = true })
   end
 end
 
--- 初期化関数
+-- initialize
 function M.setup(config)
-  M.config = vim.tbl_deep_extend('keep', M.config, config or {})
+  M.config = vim.tbl_deep_extend('force', M.config, config or {})
 
-  -- yank/paste/undo/redo のハイライトの設定
+  -- yank/paste/undo/redo highlight settings
   set_highlight(M.config.yank.hlgroup, {
     ctermbg = M.config.yank.ctermbg,
     bg = M.config.yank.guibg,
@@ -196,7 +192,7 @@ function M.setup(config)
 
   set_autocmds()
 
-  -- undo/redo のキーマップ設定
+  -- undo/redo keymap
   local undo = M.config.undo
   vim.keymap.set(undo.mode, undo.lhs, function()
     if M.config.highlight_for_count or vim.v.count == 0 then
@@ -224,7 +220,7 @@ function M.setup(config)
   end, redo.opts)
 end
 
--- undo/redo のハイライト実行
+-- undo/redo higlight
 function M.highlight_undo_redo(event_type, command)
   M.current_hlgroup = M.config[event_type].hlgroup
   api.nvim_buf_attach(0, false, {
