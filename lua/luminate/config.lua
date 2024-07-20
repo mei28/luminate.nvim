@@ -19,7 +19,7 @@ local config = {
     enabled = true,
   },
   undo = {
-    hlgroup = 'HighlightUndo',
+    hlgroup = 'LuminateUndo',
     guibg = '#2d4f67',
     fg = '#ebcb8b',
     HIGHLIGHT_THRESHOLD = 0.9,
@@ -29,7 +29,7 @@ local config = {
     opts = {},
   },
   redo = {
-    hlgroup = 'HighlightRedo',
+    hlgroup = 'LuminateRedo',
     guibg = '#2d4f67',
     fg = '#ebcb8b',
     HIGHLIGHT_THRESHOLD = 0.9,
@@ -44,12 +44,11 @@ local config = {
 local namespaces = {
   yank = api.nvim_create_namespace('LuminateYankHighlight'),
   paste = api.nvim_create_namespace('LuminatePasteHighlight'),
-  undo = api.nvim_create_namespace('HighlightUndoNamespace'),
-  redo = api.nvim_create_namespace('HighlightRedoNamespace'),
+  undo = api.nvim_create_namespace('LuminateUndoHighlight'),
+  redo = api.nvim_create_namespace('LuminateRedoHighlight'),
 }
 
 return {
   config = config,
   namespaces = namespaces,
 }
-

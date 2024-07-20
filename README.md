@@ -27,20 +27,17 @@ Simply call the setup function in your Neovim configuration:
 require'luminate'.setup({
   duration = 500,                     -- Duration of the highlight in milliseconds. Default is 500.
   yank = {
-    hlgroup = "LuminateYank",         -- Highlight group for yanked text. Default is "LuminateYank".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     enabled = true,                   -- Enable highlight on yank. Default is true.
   },
   paste = {
-    hlgroup = "LuminatePaste",        -- Highlight group for pasted text. Default is "LuminatePaste".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting pasted text. Default is 0.9.
     enabled = true,                   -- Enable highlight on paste. Default is true.
   },
   undo = {
-    hlgroup = "HighlightUndo",        -- Highlight group for undo. Default is "HighlightUndo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting undone text. Default is 0.9.
@@ -51,7 +48,6 @@ require'luminate'.setup({
     enabled = true,                   -- Enable highlight on undo. Default is true.
   },
   redo = {
-    hlgroup = "HighlightRedo",        -- Highlight group for redo. Default is "HighlightRedo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting redone text. Default is 0.9.
@@ -78,7 +74,6 @@ Then, specify the custom group in the setup function:
 ```lua
 require'luminate'.setup({
   yank = {
-    hlgroup = "MyYankGroup",
     guibg = "#FF0000",
     fg = "red",
   }
@@ -108,18 +103,15 @@ require'luminate'.setup({
 
 * duration: Time in milliseconds for the highlight to last.
 * yank: Configuration for yank highlight.
-    * hlgroup: The highlight group to use for yank.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
     * enabled: Enable or disable yank highlight.
 * paste: Configuration for paste highlight.
-    * hlgroup: The highlight group to use for paste.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
     * HIGHLIGHT_THRESHOLD: Skip highlight if pasted text exceeds this fraction of total lines.
     * enabled: Enable or disable paste highlight.
 * undo: Configuration for undo highlight.
-    * hlgroup: The highlight group to use for undo.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
     * HIGHLIGHT_THRESHOLD: Skip highlight if undone text exceeds this fraction of total lines.
@@ -129,7 +121,6 @@ require'luminate'.setup({
     * opts: Options for keymap.
     * enabled: Enable or disable undo highlight.
 * redo: Configuration for redo highlight.
-    * hlgroup: The highlight group to use for redo.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
     * HIGHLIGHT_THRESHOLD: Skip highlight if redone text exceeds this fraction of total lines.

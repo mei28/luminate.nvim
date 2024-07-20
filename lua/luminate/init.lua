@@ -6,6 +6,15 @@ local undo_redo = require('luminate.undo_redo')
 
 local M = {}
 
+local function remove_hlgroup(user_config)
+  local groups = { 'yank', 'paste', 'undo', 'redo' }
+  for _, group in ipairs(groups) do
+    if user_config[group] then
+      user_config[group].hlgroup = nil
+    end
+  end
+end
+
 local function set_highlight_groups()
   local highlight_groups = { 'yank', 'paste', 'undo', 'redo' }
   for _, group in ipairs(highlight_groups) do
@@ -45,13 +54,7 @@ local function set_keymaps()
   end, redo.opts)
 end
 
-function M.setup(user_config)
-  config.config = vim.tbl_deep_extend('force', config.config, user_config or {})
-
-  set_highlight_groups()
-  autocmds.set_autocmds()
-  set_keymaps()
-
+local function create_autocmds()
   -- Create an augroup for plugin-specific autocmds
   api.nvim_create_augroup('LuminatePlugin', { clear = true })
 
@@ -65,6 +68,19 @@ function M.setup(user_config)
   })
 
   vim.cmd('doautocmd User LuminateSetupComplete')
+end
+
+function M.setup(user_config)
+  if user_config then
+    remove_hlgroup(user_config)
+  end
+
+  config.config = vim.tbl_deep_extend('force', config.config, user_config or {})
+
+  set_highlight_groups()
+  autocmds.set_autocmds()
+  set_keymaps()
+  create_autocmds()
 end
 
 return M
