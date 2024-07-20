@@ -6,37 +6,18 @@ local undo_redo = require('luminate.undo_redo')
 
 local M = {}
 
-function M.setup(user_config)
-  config.config = vim.tbl_deep_extend('force', config.config, user_config or {})
+local function set_highlight_groups()
+  local highlight_groups = { 'yank', 'paste', 'undo', 'redo' }
+  for _, group in ipairs(highlight_groups) do
+    highlight.set_highlight(config.config[group].hlgroup, {
+      ctermbg = config.config[group].ctermbg,
+      bg = config.config[group].guibg,
+      fg = config.config[group].fg,
+    })
+  end
+end
 
-  -- yank/paste/undo/redo highlight settings
-  highlight.set_highlight(config.config.yank.hlgroup, {
-    ctermbg = config.config.yank.ctermbg,
-    bg = config.config.yank.guibg,
-    fg = config.config.yank.fg,
-  })
-
-  highlight.set_highlight(config.config.paste.hlgroup, {
-    ctermbg = config.config.paste.ctermbg,
-    bg = config.config.paste.guibg,
-    fg = config.config.paste.fg,
-  })
-
-  highlight.set_highlight(config.config.undo.hlgroup, {
-    ctermbg = config.config.undo.ctermbg,
-    bg = config.config.undo.guibg,
-    fg = config.config.undo.fg,
-  })
-
-  highlight.set_highlight(config.config.redo.hlgroup, {
-    ctermbg = config.config.redo.ctermbg,
-    bg = config.config.redo.guibg,
-    fg = config.config.redo.fg,
-  })
-
-  autocmds.set_autocmds()
-
-  -- undo/redo keymap
+local function set_keymaps()
   local undo = config.config.undo
   vim.keymap.set(undo.mode, undo.lhs, function()
     if config.config.highlight_for_count or vim.v.count == 0 then
@@ -62,6 +43,28 @@ function M.setup(user_config)
     end
     undo_redo.open_folds_on_undo()
   end, redo.opts)
+end
+
+function M.setup(user_config)
+  config.config = vim.tbl_deep_extend('force', config.config, user_config or {})
+
+  set_highlight_groups()
+  autocmds.set_autocmds()
+  set_keymaps()
+
+  -- Create an augroup for plugin-specific autocmds
+  api.nvim_create_augroup('LuminatePlugin', { clear = true })
+
+  -- Listening to the custom setup complete event
+  api.nvim_create_autocmd('User', {
+    group = 'LuminatePlugin',
+    pattern = 'LuminateSetupComplete',
+    callback = function()
+      autocmds.set_additional_autocmds()
+    end
+  })
+
+  vim.cmd('doautocmd User LuminateSetupComplete')
 end
 
 return M
