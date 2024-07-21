@@ -1,6 +1,6 @@
 local api = vim.api
 local highlight = require('luminate.highlight')
-local config = require('luminate.config').config
+local config_module = require('luminate.config')
 local M = {}
 
 function M.call_original_kemap(map)
@@ -18,8 +18,8 @@ function M.open_folds_on_undo()
 end
 
 function M.highlight_undo_redo(event_type, command)
-  config.current_hlgroup = config[event_type].hlgroup
-  config.should_detach = false
+  config_module.config.current_hlgroup = config_module.config[event_type].hlgroup
+  config_module.config.should_detach = false
 
   api.nvim_buf_attach(0, false, {
     on_bytes = function(_, bufnr, changedtick, start_row, start_column, byte_offset, old_end_row, old_end_col,
@@ -29,7 +29,7 @@ function M.highlight_undo_redo(event_type, command)
     end,
   })
 
-  if config.highlight_for_count then
+  if config_module.config.highlight_for_count then
     for _ = 1, vim.v.count1 do
       command()
     end
@@ -37,7 +37,7 @@ function M.highlight_undo_redo(event_type, command)
     command()
   end
 
-  config.should_detach = true
+  config_module.config.should_detach = true
 end
 
 return M

@@ -1,26 +1,27 @@
 local api = vim.api
-local config = require('luminate.config')
+local config_module = require('luminate.config')
 local highlight = require('luminate.highlight')
 local autocmds = require('luminate.autocmds')
 local undo_redo = require('luminate.undo_redo')
 
 local M = {}
 
+
 local function set_highlight_groups()
   local highlight_groups = { 'yank', 'paste', 'undo', 'redo' }
   for _, group in ipairs(highlight_groups) do
-    highlight.set_highlight(config.config[group].hlgroup, {
-      ctermbg = config.config[group].ctermbg,
-      bg = config.config[group].guibg,
-      fg = config.config[group].fg,
+    highlight.set_highlight(config_module.config[group].hlgroup, {
+      ctermbg = config_module.config[group].ctermbg,
+      bg = config_module.config[group].guibg,
+      fg = config_module.config[group].fg,
     })
   end
 end
 
 local function set_keymaps()
-  local undo = config.config.undo
+  local undo = config_module.config.undo
   vim.keymap.set(undo.mode, undo.lhs, function()
-    if config.config.highlight_for_count or vim.v.count == 0 then
+    if config_module.config.highlight_for_count or vim.v.count == 0 then
       undo_redo.highlight_undo_redo('undo', function()
         undo_redo.call_original_kemap(undo.map)
       end)
@@ -31,9 +32,9 @@ local function set_keymaps()
     undo_redo.open_folds_on_undo()
   end, undo.opts)
 
-  local redo = config.config.redo
+  local redo = config_module.config.redo
   vim.keymap.set(redo.mode, redo.lhs, function()
-    if config.config.highlight_for_count or vim.v.count == 0 then
+    if config_module.config.highlight_for_count or vim.v.count == 0 then
       undo_redo.highlight_undo_redo('redo', function()
         undo_redo.call_original_kemap(redo.map)
       end)
@@ -45,13 +46,7 @@ local function set_keymaps()
   end, redo.opts)
 end
 
-function M.setup(user_config)
-  config.config = vim.tbl_deep_extend('force', config.config, user_config or {})
-
-  set_highlight_groups()
-  autocmds.set_autocmds()
-  set_keymaps()
-
+local function create_autocmds()
   -- Create an augroup for plugin-specific autocmds
   api.nvim_create_augroup('LuminatePlugin', { clear = true })
 
@@ -65,6 +60,15 @@ function M.setup(user_config)
   })
 
   vim.cmd('doautocmd User LuminateSetupComplete')
+end
+
+function M.setup(user_config)
+  config_module.config = vim.tbl_deep_extend('force', config_module.config, user_config or {})
+
+  set_highlight_groups()
+  autocmds.set_autocmds()
+  set_keymaps()
+  create_autocmds()
 end
 
 return M

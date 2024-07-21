@@ -40,7 +40,7 @@ require'luminate'.setup({
     enabled = true,                   -- Enable highlight on paste. Default is true.
   },
   undo = {
-    hlgroup = "HighlightUndo",        -- Highlight group for undo. Default is "HighlightUndo".
+    hlgroup = "LuminateUndo",        -- Highlight group for undo. Default is "HighlightUndo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting undone text. Default is 0.9.
@@ -51,7 +51,7 @@ require'luminate'.setup({
     enabled = true,                   -- Enable highlight on undo. Default is true.
   },
   redo = {
-    hlgroup = "HighlightRedo",        -- Highlight group for redo. Default is "HighlightRedo".
+    hlgroup = "LuminateRedo",        -- Highlight group for redo. Default is "HighlightRedo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting redone text. Default is 0.9.
