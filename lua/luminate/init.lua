@@ -6,14 +6,6 @@ local undo_redo = require('luminate.undo_redo')
 
 local M = {}
 
-local function remove_hlgroup(user_config)
-  local groups = { 'yank', 'paste', 'undo', 'redo' }
-  for _, group in ipairs(groups) do
-    if user_config[group] then
-      user_config[group].hlgroup = nil
-    end
-  end
-end
 
 local function set_highlight_groups()
   local highlight_groups = { 'yank', 'paste', 'undo', 'redo' }
@@ -71,10 +63,6 @@ local function create_autocmds()
 end
 
 function M.setup(user_config)
-  if user_config then
-    remove_hlgroup(user_config)
-  end
-
   config_module.config = vim.tbl_deep_extend('force', config_module.config, user_config or {})
 
   set_highlight_groups()
