@@ -38,26 +38,30 @@ require'luminate'.setup({
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting pasted text. Default is 0.9.
     enabled = true,                   -- Enable highlight on paste. Default is true.
+    mode = 'n',                       -- Mode in which to map paste. Default is 'n' (normal mode).
+    lhs = { 'p', 'P' },               -- Keybindings for paste. Default is {'p', 'P'}.
+    map = { p = '"+p', P = '"+P' },   -- Commands to execute for paste.
+    opts = {},                        -- Options for keymap. Default is {}.
   },
   undo = {
-    hlgroup = "LuminateUndo",        -- Highlight group for undo. Default is "LuminateUndo".
+    hlgroup = "LuminateUndo",         -- Highlight group for undo. Default is "LuminateUndo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting undone text. Default is 0.9.
     mode = 'n',                       -- Mode in which to map undo. Default is 'n' (normal mode).
-    lhs = 'u',                        -- Keybinding for undo. Default is 'u'.
-    map = 'undo',                     -- Command to execute for undo. Default is 'undo'.
+    lhs = { 'u', 'U' },               -- Keybindings for undo. Default is {'u', 'U'}.
+    map = { u = 'u', U = 'U' },       -- Commands to execute for undo.
     opts = {},                        -- Options for keymap. Default is {}.
     enabled = true,                   -- Enable highlight on undo. Default is true.
   },
   redo = {
-    hlgroup = "LuminateRedo",        -- Highlight group for redo. Default is "LuminateRedo".
+    hlgroup = "LuminateRedo",         -- Highlight group for redo. Default is "LuminateRedo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting redone text. Default is 0.9.
     mode = 'n',                       -- Mode in which to map redo. Default is 'n' (normal mode).
-    lhs = '<C-r>',                    -- Keybinding for redo. Default is '<C-r>'.
-    map = 'redo',                     -- Command to execute for redo. Default is 'redo'.
+    lhs = { '<C-r>' },                -- Keybinding for redo. Default is {'<C-r>'}.
+    map = '<C-r>',                    -- Command to execute for redo. Default is 'redo'.
     opts = {},                        -- Options for keymap. Default is {}.
     enabled = true,                   -- Enable highlight on redo. Default is true.
   },
@@ -118,6 +122,10 @@ require'luminate'.setup({
     * fg: Foreground color.
     * HIGHLIGHT_THRESHOLD: Skip highlight if pasted text exceeds this fraction of total lines.
     * enabled: Enable or disable paste highlight.
+    * mode: Mode in which to map paste.
+    * lhs: Keybindings for paste.
+    * map: Commands to execute for paste.
+    * opts: Options for keymap.
 * undo: Configuration for undo highlight.
     * hlgroup: The highlight group to use for undo.
     * guibg: Background color for GUIs.

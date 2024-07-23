@@ -2,10 +2,9 @@ local api = vim.api
 local config_module = require('luminate.config')
 local highlight = require('luminate.highlight')
 local autocmds = require('luminate.autocmds')
-local undo_redo = require('luminate.undo_redo')
+local actions = require('luminate.actions')
 
 local M = {}
-
 
 local function set_highlight_groups()
   local highlight_groups = { 'yank', 'paste', 'undo', 'redo' }
@@ -19,47 +18,30 @@ local function set_highlight_groups()
 end
 
 local function set_keymaps()
-  local undo = config_module.config.undo
-  vim.keymap.set(undo.mode, undo.lhs, function()
-    if config_module.config.highlight_for_count or vim.v.count == 0 then
-      undo_redo.highlight_undo_redo('undo', function()
-        undo_redo.call_original_kemap(undo.map)
-      end)
-    else
-      local keys = api.nvim_replace_termcodes(vim.v.count .. 'u', true, false, true)
-      api.nvim_feedkeys(keys, 'n', false)
+  local function set_keymap_for_action(action, keys)
+    local config = config_module.config[action]
+    for _, lhs in ipairs(keys) do
+      vim.keymap.set(config.mode, lhs, function()
+        if config_module.config.highlight_for_count or vim.v.count == 0 then
+          actions.highlight_action(config_module, action, function()
+            if lhs == '<C-r>' then
+              vim.cmd('redo')
+            else
+              actions.call_original_map(config.map[lhs] or config.map)
+            end
+          end)
+        else
+          local key_sequence = api.nvim_replace_termcodes(vim.v.count .. lhs, true, false, true)
+          api.nvim_feedkeys(key_sequence, 'n', false)
+        end
+        actions.open_folds_on_undo()
+      end, config.opts)
     end
-    undo_redo.open_folds_on_undo()
-  end, undo.opts)
+  end
 
-  local redo = config_module.config.redo
-  vim.keymap.set(redo.mode, redo.lhs, function()
-    if config_module.config.highlight_for_count or vim.v.count == 0 then
-      undo_redo.highlight_undo_redo('redo', function()
-        undo_redo.call_original_kemap(redo.map)
-      end)
-    else
-      local keys = api.nvim_replace_termcodes(vim.v.count .. '<C-r>', true, false, true)
-      api.nvim_feedkeys(keys, 'n', false)
-    end
-    undo_redo.open_folds_on_undo()
-  end, redo.opts)
-end
-
-local function create_autocmds()
-  -- Create an augroup for plugin-specific autocmds
-  api.nvim_create_augroup('LuminatePlugin', { clear = true })
-
-  -- Listening to the custom setup complete event
-  api.nvim_create_autocmd('User', {
-    group = 'LuminatePlugin',
-    pattern = 'LuminateSetupComplete',
-    callback = function()
-      autocmds.set_additional_autocmds()
-    end
-  })
-
-  vim.cmd('doautocmd User LuminateSetupComplete')
+  set_keymap_for_action('undo', config_module.config.undo.lhs)
+  set_keymap_for_action('redo', config_module.config.redo.lhs)
+  set_keymap_for_action('paste', config_module.config.paste.lhs)
 end
 
 function M.setup(user_config)
@@ -68,7 +50,6 @@ function M.setup(user_config)
   set_highlight_groups()
   autocmds.set_autocmds()
   set_keymaps()
-  create_autocmds()
 end
 
 return M
