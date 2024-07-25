@@ -17,6 +17,10 @@ local config = {
     fg = '#ebcb8b',
     HIGHLIGHT_THRESHOLD = 0.9,
     enabled = true,
+    mode = 'n',
+    lhs = { 'p', 'P' },
+    map = { p = '"+p', P = '"+P' },
+    opts = {},
   },
   undo = {
     hlgroup = 'LuminateUndo',
@@ -24,8 +28,8 @@ local config = {
     fg = '#ebcb8b',
     HIGHLIGHT_THRESHOLD = 0.9,
     mode = 'n',
-    lhs = 'u',
-    map = 'undo',
+    lhs = { 'u', 'U' },
+    map = { u = 'u', U = 'U' },
     opts = {},
   },
   redo = {
@@ -34,8 +38,8 @@ local config = {
     fg = '#ebcb8b',
     HIGHLIGHT_THRESHOLD = 0.9,
     mode = 'n',
-    lhs = '<C-r>',
-    map = 'redo',
+    lhs = { '<C-r>' },
+    map = '<C-r>',
     opts = {},
   },
   highlight_for_count = true,
@@ -52,3 +56,4 @@ return {
   config = config,
   namespaces = namespaces,
 }
+

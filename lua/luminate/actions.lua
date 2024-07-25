@@ -1,11 +1,10 @@
 local api = vim.api
 local highlight = require('luminate.highlight')
-local config_module = require('luminate.config')
 local M = {}
 
-function M.call_original_kemap(map)
+function M.call_original_map(map)
   if type(map) == 'string' then
-    vim.cmd(map)
+    vim.cmd('normal! ' .. map)
   elseif type(map) == 'function' then
     map()
   end
@@ -17,7 +16,7 @@ function M.open_folds_on_undo()
   end
 end
 
-function M.highlight_undo_redo(event_type, command)
+function M.highlight_action(config_module, event_type, command)
   config_module.config.current_hlgroup = config_module.config[event_type].hlgroup
   config_module.config.should_detach = false
 
@@ -41,3 +40,4 @@ function M.highlight_undo_redo(event_type, command)
 end
 
 return M
+

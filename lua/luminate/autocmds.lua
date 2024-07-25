@@ -3,12 +3,6 @@ local highlight = require('luminate.highlight')
 local config_module = require('luminate.config')
 local M = {}
 
-function M.set_additional_autocmds()
-  if config_module.config.paste.enabled then
-    M.attach_bytes_highlight('paste')
-  end
-end
-
 function M.set_autocmds()
   api.nvim_create_augroup('LuminateHighlight', { clear = true })
 
@@ -20,7 +14,7 @@ function M.set_autocmds()
   end
 
   if config_module.config.paste.enabled then
-    api.nvim_create_autocmd('TextChanged', {
+    api.nvim_create_autocmd('BufEnter', {
       group = 'LuminateHighlight',
       callback = function() M.attach_bytes_highlight('paste') end
     })
