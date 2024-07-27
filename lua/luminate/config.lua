@@ -19,7 +19,7 @@ local config = {
     enabled = true,
     mode = 'n',
     lhs = { 'p', 'P' },
-    map = { p = '""p', P = '""P' },
+    map = { p = 'p', P = 'P' },
     opts = {},
   },
   undo = {
