@@ -40,7 +40,7 @@ require'luminate'.setup({
     enabled = true,                   -- Enable highlight on paste. Default is true.
     mode = 'n',                       -- Mode in which to map paste. Default is 'n' (normal mode).
     lhs = { 'p', 'P' },               -- Keybindings for paste. Default is {'p', 'P'}.
-    map = { p = '"+p', P = '"+P' },   -- Commands to execute for paste.
+    map = { p = '""p', P = '""P' },   -- Commands to execute for paste.
     opts = {},                        -- Options for keymap. Default is {}.
   },
   undo = {
