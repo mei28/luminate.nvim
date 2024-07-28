@@ -23,16 +23,14 @@ function M.on_bytes(event_type, bufnr, changedtick, start_row, start_column, byt
   end
 
   vim.schedule(function()
-    if (end_row - start_row) / num_lines <= event_config.HIGHLIGHT_THRESHOLD then
-      vim.highlight.range(
-        bufnr,
-        namespaces[event_type],
-        event_config.hlgroup,
-        { start_row, start_column },
-        { end_row, end_col }
-      )
-      M.defer_clear_highlights(bufnr, namespaces[event_type])
-    end
+    vim.highlight.range(
+      bufnr,
+      namespaces[event_type],
+      event_config.hlgroup,
+      { start_row, start_column },
+      { end_row, end_col }
+    )
+    M.defer_clear_highlights(bufnr, namespaces[event_type])
   end)
 end
 
