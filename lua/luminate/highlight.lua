@@ -37,6 +37,7 @@ function M.on_bytes(event_type, bufnr, changedtick, start_row, start_column, byt
 end
 
 function M.defer_clear_highlights(bufnr, namespace)
+  if not api.nvim_buf_is_valid(bufnr) then return end
   vim.defer_fn(function()
     api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
   end, config_module.config.duration)
