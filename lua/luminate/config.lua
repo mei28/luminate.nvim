@@ -45,6 +45,8 @@ local config = {
 local namespaces = {
   yank = api.nvim_create_namespace('LuminateYankHighlight'),
   paste = api.nvim_create_namespace('LuminatePasteHighlight'),
+  undo = api.nvim_create_namespace('LuminateUndoHighlight'),
+  redo = api.nvim_create_namespace('LuminateRedoHighlight'),
   undo_redo = api.nvim_create_namespace('LuminateUndoRedoHighlight')
 }
 
