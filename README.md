@@ -48,6 +48,7 @@ require'luminate'.setup({
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting undone text. Default is 0.9.
+    enabled = true,                   -- Enable highlight on undo. Default is true.
     mode = 'n',                       -- Mode in which to map undo. Default is 'n' (normal mode).
     lhs = { 'u', 'U' },               -- Keybindings for undo. Default is {'u', 'U'}.
     map = { u = 'u', U = 'U' },       -- Commands to execute for undo.
@@ -59,6 +60,7 @@ require'luminate'.setup({
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
     HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting redone text. Default is 0.9.
+    enabled = true,                   -- Enable highlight on redo. Default is true.
     mode = 'n',                       -- Mode in which to map redo. Default is 'n' (normal mode).
     lhs = { '<C-r>' },                -- Keybinding for redo. Default is {'<C-r>'}.
     map = '<C-r>',                    -- Command to execute for redo. Default is 'redo'.
@@ -131,6 +133,7 @@ require'luminate'.setup({
     * guibg: Background color for GUIs.
     * fg: Foreground color.
     * HIGHLIGHT_THRESHOLD: Skip highlight if undone text exceeds this fraction of total lines.
+    * enabled: Enable or disable paste highlight.
     * mode: Mode in which to map undo.
     * lhs: Keybinding for undo.
     * map: Command to execute for undo.
@@ -141,6 +144,7 @@ require'luminate'.setup({
     * guibg: Background color for GUIs.
     * fg: Foreground color.
     * HIGHLIGHT_THRESHOLD: Skip highlight if redone text exceeds this fraction of total lines.
+    * enabled: Enable or disable paste highlight.
     * mode: Mode in which to map redo.
     * lhs: Keybinding for redo.
     * map: Command to execute for redo.
