@@ -20,10 +20,17 @@ function M.set_autocmds()
     })
   end
 
-  if config_module.config.undo.enabled or config_module.config.redo.enabled then
+  if config_module.config.undo.enabled then
     api.nvim_create_autocmd('BufEnter', {
       group = 'LuminateHighlight',
-      callback = function() M.attach_bytes_highlight('undo_redo') end
+      callback = function() M.attach_bytes_highlight('undo') end
+    })
+  end
+
+  if config_module.config.redo.enabled then
+    api.nvim_create_autocmd('BufEnter', {
+      group = 'LuminateHighlight',
+      callback = function() M.attach_bytes_highlight('redo') end
     })
   end
 end
@@ -48,3 +55,4 @@ function M.attach_bytes_highlight(event_type)
 end
 
 return M
+
