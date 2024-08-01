@@ -20,6 +20,7 @@ end
 local function set_keymaps()
   local function set_keymap_for_action(action, keys)
     local config = config_module.config[action]
+    if not config.enabled then return end
     for _, lhs in ipairs(keys) do
       vim.keymap.set(config.mode, lhs, function()
         if config_module.config.highlight_for_count or vim.v.count == 0 then

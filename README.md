@@ -46,6 +46,7 @@ require'luminate'.setup({
     hlgroup = "LuminateUndo",         -- Highlight group for undo. Default is "LuminateUndo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
+    enabled = true,                   -- Enable highlight on undo. Default is true.
     mode = 'n',                       -- Mode in which to map undo. Default is 'n' (normal mode).
     lhs = { 'u', 'U' },               -- Keybindings for undo. Default is {'u', 'U'}.
     map = { u = 'u', U = 'U' },       -- Commands to execute for undo.
@@ -56,6 +57,7 @@ require'luminate'.setup({
     hlgroup = "LuminateRedo",         -- Highlight group for redo. Default is "LuminateRedo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
+    enabled = true,                   -- Enable highlight on redo. Default is true.
     mode = 'n',                       -- Mode in which to map redo. Default is 'n' (normal mode).
     lhs = { '<C-r>' },                -- Keybinding for redo. Default is {'<C-r>'}.
     map = '<C-r>',                    -- Command to execute for redo. Default is 'redo'.
@@ -126,6 +128,11 @@ require'luminate'.setup({
     * hlgroup: The highlight group to use for undo.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
+<<<<<<< HEAD
+=======
+    * HIGHLIGHT_THRESHOLD: Skip highlight if undone text exceeds this fraction of total lines.
+    * enabled: Enable or disable paste highlight.
+>>>>>>> origin
     * mode: Mode in which to map undo.
     * lhs: Keybinding for undo.
     * map: Command to execute for undo.
@@ -135,6 +142,11 @@ require'luminate'.setup({
     * hlgroup: The highlight group to use for redo.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
+<<<<<<< HEAD
+=======
+    * HIGHLIGHT_THRESHOLD: Skip highlight if redone text exceeds this fraction of total lines.
+    * enabled: Enable or disable paste highlight.
+>>>>>>> origin
     * mode: Mode in which to map redo.
     * lhs: Keybinding for redo.
     * map: Command to execute for redo.
