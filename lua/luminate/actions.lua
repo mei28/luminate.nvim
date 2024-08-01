@@ -2,14 +2,6 @@ local api = vim.api
 local highlight = require('luminate.highlight')
 local M = {}
 
-function M.call_original_map(map)
-  if type(map) == 'string' then
-    vim.cmd('normal! ' .. map)
-  elseif type(map) == 'function' then
-    map()
-  end
-end
-
 function M.open_folds_on_undo()
   if vim.tbl_contains(vim.opt.foldopen:get(), "undo") then
     vim.cmd.normal({ "zv", bang = true })

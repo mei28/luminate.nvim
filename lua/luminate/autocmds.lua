@@ -14,21 +14,24 @@ function M.set_autocmds()
   end
 
   if config_module.config.paste.enabled then
-    api.nvim_create_autocmd('BufEnter', {
+    api.nvim_create_autocmd('User', {
+      pattern = { 'Luminate_paste' },
       group = 'LuminateHighlight',
       callback = function() M.attach_bytes_highlight('paste') end
     })
   end
 
   if config_module.config.undo.enabled then
-    api.nvim_create_autocmd('BufEnter', {
+    api.nvim_create_autocmd('User', {
+      pattern = { 'Luminate_undo' },
       group = 'LuminateHighlight',
       callback = function() M.attach_bytes_highlight('undo') end
     })
   end
 
   if config_module.config.redo.enabled then
-    api.nvim_create_autocmd('BufEnter', {
+    api.nvim_create_autocmd('User', {
+      pattern = { 'Luminate_redo' },
       group = 'LuminateHighlight',
       callback = function() M.attach_bytes_highlight('redo') end
     })

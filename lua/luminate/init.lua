@@ -20,23 +20,21 @@ end
 local function set_keymaps()
   local function set_keymap_for_action(action, keys)
     local config = config_module.config[action]
-    if not config.enabled then return end
+    if not config then print("LUMINATE.NVIM ERROR: config is nil.") return end
+    local mappings = api.nvim_get_keymap(config.mode)
+    local buf_mappings = api.nvim_buf_get_keymap(0, config.mode)
     for _, lhs in ipairs(keys) do
-      vim.keymap.set(config.mode, lhs, function()
-        if config_module.config.highlight_for_count or vim.v.count == 0 then
-          actions.highlight_action(config_module, action, function()
-            if lhs == '<C-r>' then
-              vim.cmd('redo')
-            else
-              actions.call_original_map(config.map[lhs] or config.map)
-            end
-          end)
-        else
-          local key_sequence = api.nvim_replace_termcodes(vim.v.count .. lhs, true, false, true)
-          api.nvim_feedkeys(key_sequence, 'n', false)
+      local original_map = mappings[lhs] or buf_mappings[lhs] or {}
+      local rhs = original_map.rhs or original_map.callback or lhs
+      vim.keymap.set(config.mode, lhs,
+        (type(rhs) == "string" and rhs .. " <cmd>doautocmd User Luminate_" .. action .. "<CR>")
+        or (type(rhs) == "function" and function ()
+          rhs()
+          api.nvim_exec_autocmds("User", { "Luminate_" .. action })
         end
-        actions.open_folds_on_undo()
-      end, config.opts)
+        or ""),
+        { noremap = true, desc = original_map.desc or "" }
+      )
     end
   end
 
