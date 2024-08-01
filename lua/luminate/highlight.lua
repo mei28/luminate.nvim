@@ -15,6 +15,8 @@ function M.on_bytes(event_type, bufnr, changedtick, start_row, start_column, byt
   end
 
   local event_config = config_module.config[event_type]
+  if not event_config then print("Luminate.nvim ERROR: Could not find correct config for event type" .. event_type) return end
+
   local num_lines = api.nvim_buf_line_count(bufnr)
   local end_row = start_row + new_end_row
   local end_col = start_column + new_end_col
@@ -27,6 +29,7 @@ function M.on_bytes(event_type, bufnr, changedtick, start_row, start_column, byt
     return true
   end
 
+  if not namespaces[event_type] then print("Luminate.nvim ERROR: Could not find namespace for " .. event_type .. " highlighting.") return end
   vim.schedule(function()
     vim.highlight.range(
       bufnr,
@@ -40,7 +43,6 @@ function M.on_bytes(event_type, bufnr, changedtick, start_row, start_column, byt
 end
 
 function M.defer_clear_highlights(bufnr, namespace)
-  if not api.nvim_buf_is_valid(bufnr) then return end
   vim.defer_fn(function()
     api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
   end, config_module.config.duration)

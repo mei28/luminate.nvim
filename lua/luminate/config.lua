@@ -19,7 +19,6 @@ local config = {
     enabled = true,
     mode = 'n',
     lhs = { 'p', 'P' },
-    map = { p = 'p', P = 'P' },
     opts = {},
   },
   undo = {
@@ -29,7 +28,6 @@ local config = {
     enabled = true,
     mode = 'n',
     lhs = { 'u', 'U' },
-    map = { u = 'u', U = 'U' },
     opts = {},
   },
   redo = {
@@ -39,7 +37,6 @@ local config = {
     enabled = true,
     mode = 'n',
     lhs = { '<C-r>' },
-    map = '<C-r>',
     opts = {},
   },
   highlight_for_count = true,
@@ -48,8 +45,7 @@ local config = {
 local namespaces = {
   yank = api.nvim_create_namespace('LuminateYankHighlight'),
   paste = api.nvim_create_namespace('LuminatePasteHighlight'),
-  undo = api.nvim_create_namespace('LuminateUndoHighlight'),
-  redo = api.nvim_create_namespace('LuminateRedoHighlight'),
+  undo_redo = api.nvim_create_namespace('LuminateUndoRedoHighlight')
 }
 
 return {
