@@ -36,7 +36,6 @@ require'luminate'.setup({
     hlgroup = "LuminatePaste",        -- Highlight group for pasted text. Default is "LuminatePaste".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
-    HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting pasted text. Default is 0.9.
     enabled = true,                   -- Enable highlight on paste. Default is true.
     mode = 'n',                       -- Mode in which to map paste. Default is 'n' (normal mode).
     lhs = { 'p', 'P' },               -- Keybindings for paste. Default is {'p', 'P'}.
@@ -47,7 +46,6 @@ require'luminate'.setup({
     hlgroup = "LuminateUndo",         -- Highlight group for undo. Default is "LuminateUndo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
-    HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting undone text. Default is 0.9.
     mode = 'n',                       -- Mode in which to map undo. Default is 'n' (normal mode).
     lhs = { 'u', 'U' },               -- Keybindings for undo. Default is {'u', 'U'}.
     map = { u = 'u', U = 'U' },       -- Commands to execute for undo.
@@ -58,7 +56,6 @@ require'luminate'.setup({
     hlgroup = "LuminateRedo",         -- Highlight group for redo. Default is "LuminateRedo".
     guibg = "#2d4f67",                -- Background color for GUIs. Default is "#2d4f67".
     fg = "#ebcb8b",                   -- Foreground color. Default is "#ebcb8b".
-    HIGHLIGHT_THRESHOLD = 0.9,        -- Threshold for highlighting redone text. Default is 0.9.
     mode = 'n',                       -- Mode in which to map redo. Default is 'n' (normal mode).
     lhs = { '<C-r>' },                -- Keybinding for redo. Default is {'<C-r>'}.
     map = '<C-r>',                    -- Command to execute for redo. Default is 'redo'.
@@ -120,7 +117,6 @@ require'luminate'.setup({
     * hlgroup: The highlight group to use for paste.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
-    * HIGHLIGHT_THRESHOLD: Skip highlight if pasted text exceeds this fraction of total lines.
     * enabled: Enable or disable paste highlight.
     * mode: Mode in which to map paste.
     * lhs: Keybindings for paste.
@@ -130,7 +126,6 @@ require'luminate'.setup({
     * hlgroup: The highlight group to use for undo.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
-    * HIGHLIGHT_THRESHOLD: Skip highlight if undone text exceeds this fraction of total lines.
     * mode: Mode in which to map undo.
     * lhs: Keybinding for undo.
     * map: Command to execute for undo.
@@ -140,7 +135,6 @@ require'luminate'.setup({
     * hlgroup: The highlight group to use for redo.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
-    * HIGHLIGHT_THRESHOLD: Skip highlight if redone text exceeds this fraction of total lines.
     * mode: Mode in which to map redo.
     * lhs: Keybinding for redo.
     * map: Command to execute for redo.
