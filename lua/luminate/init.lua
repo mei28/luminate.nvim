@@ -33,7 +33,7 @@ local function set_keymaps()
           api.nvim_exec_autocmds("User", { "Luminate_" .. action })
         end
         or ""),
-        { noremap = true, desc = original_map.desc or nil }
+        { noremap = true, desc = original_map.desc or "" }
       )
     end
   end
