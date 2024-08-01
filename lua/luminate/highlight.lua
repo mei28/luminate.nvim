@@ -3,6 +3,7 @@ local config_module = require('luminate.config')
 local namespaces = config_module.namespaces
 local M = {}
 
+
 function M.set_highlight(name, params)
   api.nvim_set_hl(0, name, params)
 end
@@ -20,6 +21,10 @@ function M.on_bytes(event_type, bufnr, changedtick, start_row, start_column, byt
 
   if end_row >= num_lines then
     end_col = #api.nvim_buf_get_lines(bufnr, -2, -1, false)[1]
+  end
+
+  if (end_row - start_row) / num_lines >= config_module.config.highlight_threshold then
+    return true
   end
 
   vim.schedule(function()

@@ -5,6 +5,7 @@ local config = {
   timer = (vim.uv or vim.loop).new_timer(),
   should_detach = true,
   current_hlgroup = nil,
+  highlight_threshold = 0.9,
   yank = {
     hlgroup = "LuminateYank",
     guibg = '#2d4f67',
