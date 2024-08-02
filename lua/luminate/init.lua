@@ -20,7 +20,7 @@ end
 local function set_keymaps()
   local function set_keymap_for_action(action, keys)
     local config = config_module.config[action]
-    if not config then print("LUMINATE.NVIM ERROR: config is nil.") return end
+    if not config then print("Luminate.NVIM ERROR: config is nil.") return end
     local mappings = api.nvim_get_keymap(config.mode)
     local buf_mappings = api.nvim_buf_get_keymap(0, config.mode)
     for _, lhs in ipairs(keys) do
