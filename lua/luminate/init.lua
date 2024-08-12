@@ -6,14 +6,23 @@ local actions = require('luminate.actions')
 
 local M = {}
 
+local function is_empty_dict(tbl)
+  return next(tbl) == nil
+end
+
 local function set_highlight_groups()
   local highlight_groups = { 'yank', 'paste', 'undo', 'redo' }
   for _, group in ipairs(highlight_groups) do
-    highlight.set_highlight(config_module.config[group].hlgroup, {
-      ctermbg = config_module.config[group].ctermbg,
-      bg = config_module.config[group].guibg,
-      fg = config_module.config[group].fg,
-    })
+    local hlgroup = config_module.config[group].hlgroup
+    local current_hl = vim.api.nvim_get_hl(0, { name = hlgroup })
+
+    if is_empty_dict(current_hl) then
+      highlight.set_highlight(hlgroup, {
+        ctermbg = config_module.config[group].ctermbg,
+        bg = config_module.config[group].guibg,
+        fg = config_module.config[group].fg,
+      })
+    end
   end
 end
 
