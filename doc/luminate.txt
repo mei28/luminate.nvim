@@ -1,62 +1,173 @@
-* luminate.txt*       For Neovim version 0.6.0.  Last change: 2023 Nov 02
-
-                                                         * luminate *
-==============================================================================
-1. Overview                                               |luminate-overview|
-
-The `luminate` module provides functionality to highlight text regions during
-yank and paste operations in Neovim.
+*luminate.txt*       For Neovim >= 0.6.0.  Last change: 2025 Jan 12
 
 ==============================================================================
-2. Configuration                                          |luminate-config|
+CONTENTS                                                    *luminate-contents*
 
-Here's the default configuration for the `luminate` module:
-
-  local M = {}
-
-  M.config = {
-    higroup = "LuminateYank",         " Highlight group name
-    timeout = 500,                   " Duration of the highlight in milliseconds
-    ctermbg = 8,                     " Terminal background color
-    guibg = "#ebcb8b",               " GUI background color
-    highlight_on_yank = true,        " Whether to highlight on yank
-    highlight_on_paste = true        " Whether to highlight on paste
-  }
-
-The configuration can be changed by passing an options table to the `setup`
-function.
+1. Introduction ........................... |luminate-introduction|
+2. Requirements ........................... |luminate-requirements|
+3. Setup .................................. |luminate-setup|
+4. Configuration .......................... |luminate-configuration|
+5. Highlight Groups ....................... |luminate-highlights|
+6. Commands ............................... |luminate-commands|
 
 ==============================================================================
-3. Functions                                               |luminate-functions|
+1. INTRODUCTION                                         *luminate-introduction*
 
-3.1. setup({opts})                                         |luminate-setup|
+Luminate provides visual feedback for text operations in Neovim by
+temporarily highlighting affected regions during:
+  - Yank operations (via TextYankPost)
+  - Paste operations (via custom keymaps)
+  - Undo operations (via custom keymaps)
+  - Redo operations (via custom keymaps)
 
-  M.setup = function(opts)
-    ...
-  end
+The plugin helps you track where text changes occur, making it easier to
+follow editing operations in your workflow.
 
-  This function initializes the `luminate` module and sets up auto commands
-  for highlighting on yank and paste. You can customize the behavior by
-  passing in an options table.
+==============================================================================
+2. REQUIREMENTS                                         *luminate-requirements*
 
-3.2. on_yank()                                             |luminate-on_yank|
+- Neovim >= 0.6.0
+- Optional: A colorscheme that defines appropriate highlight groups
 
-  M.on_yank = function()
-    ...
-  end
+==============================================================================
+3. SETUP                                                       *luminate-setup*
 
-  This function is an internal function triggered after yank operations to 
-  provide the highlighting feature.
+To use Luminate, call the setup function in your init.lua:
+>lua
+    require('luminate').setup({
+      -- your configuration here
+    })
+<
 
-3.3. on_paste()                                            |luminate-on_paste|
+For default configuration, simply call:
+>lua
+    require('luminate').setup()
+<
 
-  M.on_paste = function()
-    ...
-  end
+==============================================================================
+4. CONFIGURATION                                       *luminate-configuration*
 
-  This function is an internal function triggered after paste operations to 
-  provide the highlighting feature.
+The following options can be passed to setup():
+
+                                                           *luminate.duration*
+duration                (number, default: 500)
+    Duration in milliseconds for the highlight to remain visible.
+
+                                              *luminate.highlight_threshold*
+highlight_threshold     (number, default: 0.9)
+    Skip highlighting if the changed text exceeds this fraction of total
+    buffer lines. Range: 0.0 to 1.0. This prevents highlighting large
+    changes like file format operations.
+
+                                              *luminate.highlight_for_count*
+highlight_for_count     (boolean, default: true)
+    When true, respects count prefixes for undo/redo operations.
+    For example, "5u" will undo 5 times and highlight all changes.
+
+                                                              *luminate.yank*
+yank                    (table)
+    Configuration for yank highlighting.
+    Fields:
+      - enabled  (boolean, default: true)  Enable yank highlighting
+      - hlgroup  (string, default: "LuminateYank")  Highlight group name
+      - guibg    (string, default: "#2d4f67")  GUI background color
+      - fg       (string, default: "#ebcb8b")  Foreground color
+
+                                                             *luminate.paste*
+paste                   (table)
+    Configuration for paste highlighting.
+    Fields:
+      - enabled  (boolean, default: true)  Enable paste highlighting
+      - hlgroup  (string, default: "LuminatePaste")  Highlight group name
+      - guibg    (string, default: "#2d4f67")  GUI background color
+      - fg       (string, default: "#ebcb8b")  Foreground color
+      - mode     (string, default: "n")  Mode for keymap
+      - lhs      (table, default: {'p', 'P'})  Keybindings
+      - map      (table, default: {p='p', P='P'})  Commands to execute
+      - opts     (table, default: {})  Keymap options
+
+                                                              *luminate.undo*
+undo                    (table)
+    Configuration for undo highlighting.
+    Fields:
+      - enabled  (boolean, default: true)  Enable undo highlighting
+      - hlgroup  (string, default: "LuminateUndo")  Highlight group name
+      - guibg    (string, default: "#2d4f67")  GUI background color
+      - fg       (string, default: "#ebcb8b")  Foreground color
+      - mode     (string, default: "n")  Mode for keymap
+      - lhs      (table, default: {'u', 'U'})  Keybindings
+      - map      (table, default: {u='u', U='U'})  Commands to execute
+      - opts     (table, default: {})  Keymap options
+
+                                                              *luminate.redo*
+redo                    (table)
+    Configuration for redo highlighting.
+    Fields:
+      - enabled  (boolean, default: true)  Enable redo highlighting
+      - hlgroup  (string, default: "LuminateRedo")  Highlight group name
+      - guibg    (string, default: "#2d4f67")  GUI background color
+      - fg       (string, default: "#ebcb8b")  Foreground color
+      - mode     (string, default: "n")  Mode for keymap
+      - lhs      (table, default: {'<C-r>'})  Keybindings
+      - map      (string, default: "<C-r>")  Command to execute
+      - opts     (table, default: {})  Keymap options
+
+Example configuration:
+>lua
+    require('luminate').setup({
+      duration = 300,
+      highlight_threshold = 0.8,
+      yank = {
+        enabled = true,
+        guibg = '#ff0000',
+      },
+      paste = {
+        enabled = true,
+        lhs = { 'p', 'P', '<leader>p' },
+        map = { p = 'p', P = 'P', ['<leader>p'] = '"+p' },
+      },
+      undo = {
+        enabled = false,  -- Disable undo highlighting
+      },
+    })
+<
+
+==============================================================================
+5. HIGHLIGHT GROUPS                                       *luminate-highlights*
+
+The following highlight groups are used by default:
+
+LuminateYank                                                   *LuminateYank*
+    Highlight group for yank operations.
+    Default: guibg=#2d4f67 fg=#ebcb8b
+
+LuminatePaste                                                 *LuminatePaste*
+    Highlight group for paste operations.
+    Default: guibg=#2d4f67 fg=#ebcb8b
+
+LuminateUndo                                                   *LuminateUndo*
+    Highlight group for undo operations.
+    Default: guibg=#2d4f67 fg=#ebcb8b
+
+LuminateRedo                                                   *LuminateRedo*
+    Highlight group for redo operations.
+    Default: guibg=#2d4f67 fg=#ebcb8b
+
+You can customize these in your colorscheme or after setup:
+>vim
+    highlight LuminateYank guibg=#ff0000 guifg=#ffffff
+<
+
+==============================================================================
+6. COMMANDS                                                 *luminate-commands*
+
+Luminate does not provide user commands. It works through autocommands and
+keymaps:
+
+- Yank highlighting is triggered automatically via TextYankPost
+- Paste/Undo/Redo highlighting is triggered via custom keymaps
+
+To disable specific operations, set their `enabled` option to false in setup.
 
 ==============================================================================
 vim:tw=78:ts=8:noet:ft=help:norl:
-

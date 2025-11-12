@@ -128,11 +128,6 @@ require'luminate'.setup({
     * hlgroup: The highlight group to use for undo.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
-<<<<<<< HEAD
-=======
-    * HIGHLIGHT_THRESHOLD: Skip highlight if undone text exceeds this fraction of total lines.
-    * enabled: Enable or disable paste highlight.
->>>>>>> origin
     * mode: Mode in which to map undo.
     * lhs: Keybinding for undo.
     * map: Command to execute for undo.
@@ -142,11 +137,6 @@ require'luminate'.setup({
     * hlgroup: The highlight group to use for redo.
     * guibg: Background color for GUIs.
     * fg: Foreground color.
-<<<<<<< HEAD
-=======
-    * HIGHLIGHT_THRESHOLD: Skip highlight if redone text exceeds this fraction of total lines.
-    * enabled: Enable or disable paste highlight.
->>>>>>> origin
     * mode: Mode in which to map redo.
     * lhs: Keybinding for redo.
     * map: Command to execute for redo.

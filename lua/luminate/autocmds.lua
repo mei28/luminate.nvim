@@ -13,26 +13,8 @@ function M.set_autocmds()
     })
   end
 
-  if config_module.config.paste.enabled then
-    api.nvim_create_autocmd('BufEnter', {
-      group = 'LuminateHighlight',
-      callback = function() M.attach_bytes_highlight('paste') end
-    })
-  end
-
-  if config_module.config.undo.enabled then
-    api.nvim_create_autocmd('BufEnter', {
-      group = 'LuminateHighlight',
-      callback = function() M.attach_bytes_highlight('undo') end
-    })
-  end
-
-  if config_module.config.redo.enabled then
-    api.nvim_create_autocmd('BufEnter', {
-      group = 'LuminateHighlight',
-      callback = function() M.attach_bytes_highlight('redo') end
-    })
-  end
+  -- paste/undo/redo highlights are triggered only via keymaps
+  -- BufEnter buffer attach removed to prevent unwanted highlights on unintended operations
 end
 
 function M.on_yank()
@@ -40,17 +22,6 @@ function M.on_yank()
     higroup = config_module.config.yank.hlgroup,
     timeout = config_module.config.duration,
     namespace = config_module.namespaces.yank,
-  })
-end
-
-function M.attach_bytes_highlight(event_type)
-  config_module.config.should_detach = false
-  api.nvim_buf_attach(0, false, {
-    on_bytes = function(_, bufnr, changedtick, start_row, start_column, byte_offset, old_end_row, old_end_col,
-                        old_end_byte, new_end_row, new_end_col, new_end_byte)
-      highlight.on_bytes(event_type, bufnr, changedtick, start_row, start_column, byte_offset, old_end_row, old_end_col,
-        old_end_byte, new_end_row, new_end_col, new_end_byte)
-    end,
   })
 end
 

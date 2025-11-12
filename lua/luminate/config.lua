@@ -2,9 +2,6 @@ local api = vim.api
 
 local config = {
   duration = 500,
-  timer = (vim.uv or vim.loop).new_timer(),
-  should_detach = true,
-  current_hlgroup = nil,
   highlight_threshold = 0.9,
   yank = {
     hlgroup = "LuminateYank",
