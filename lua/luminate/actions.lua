@@ -17,12 +17,17 @@ function M.open_folds_on_undo()
 end
 
 function M.highlight_action(config_module, event_type, command)
-  config_module.config.current_hlgroup = config_module.config[event_type].hlgroup
-  config_module.config.should_detach = false
+  -- Manage active state with local variable (instead of global flag)
+  local is_active = true
 
   api.nvim_buf_attach(0, false, {
     on_bytes = function(_, bufnr, changedtick, start_row, start_column, byte_offset, old_end_row, old_end_col,
                         old_end_byte, new_end_row, new_end_col, new_end_byte)
+      -- Execute highlight only when active
+      if not is_active then
+        return true
+      end
+
       highlight.on_bytes(event_type, bufnr, changedtick, start_row, start_column, byte_offset, old_end_row, old_end_col,
         old_end_byte, new_end_row, new_end_col, new_end_byte)
     end,
@@ -36,7 +41,10 @@ function M.highlight_action(config_module, event_type, command)
     command()
   end
 
-  config_module.config.should_detach = true
+  -- Deactivate after command execution
+  vim.schedule(function()
+    is_active = false
+  end)
 end
 
 return M
