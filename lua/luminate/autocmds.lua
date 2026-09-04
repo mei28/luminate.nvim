@@ -36,7 +36,7 @@ function M.set_autocmds()
 end
 
 function M.on_yank()
-  vim.highlight.on_yank({
+  vim.hl.hl_op({
     higroup = config_module.config.yank.hlgroup,
     timeout = config_module.config.duration,
     namespace = config_module.namespaces.yank,
